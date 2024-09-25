@@ -1,4 +1,4 @@
-NAME	=	workshop
+NAME	=	bonus
 
 CXX	=	c++
 CXXFLAGS	=	-Wall -Werror -Wextra -std=c++98 -g
