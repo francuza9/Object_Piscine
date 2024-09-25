@@ -35,8 +35,6 @@ Graph::Graph(int p_size, const std::string filename) : size(p_size)
 	file.close();
 }
 
-
-
 void Graph::toPNG(const std::string filename) const {
 	FILE *fp = fopen(filename.c_str(), "wb");
 	if (!fp) {

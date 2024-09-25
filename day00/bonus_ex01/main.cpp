@@ -33,16 +33,16 @@ int main(void)
 	{
 		Graph graph = Graph(50, "texts/points.txt");
 
-		graph.toPNG("input.png");
+		graph.toPNG("points.png");
 	}
-	// {
-	// 	Graph graph = Graph(50, "texts/inexistent.txt");
+	{
+		Graph graph = Graph(50, "texts/inexistent.txt");
 
-	// 	graph.toPNG("input.png");
-	// }
-	// {
-	// 	Graph graph = Graph(50, "texts/invalid.txt");
+		graph.toPNG("inexistent.png");
+	}
+	{
+		Graph graph = Graph(50, "texts/invalid.txt");
 
-	// 	graph.toPNG("input.png");
-	// }
+		graph.toPNG("invalid.png");
+	}
 }
