@@ -29,9 +29,8 @@ class EmployeeManager {
 		void calculatePayroll() {
 			std::set<IEmployee *>::iterator it;
 			for (it = employees.begin(); it != employees.end(); it++) {
-				int totalHours = (*it)->executeWorkday();
 				std::cout << "Employee hourly value: " << (*it)->getHourlyValue();
-				std::cout << ", Total pay: " << totalHours << std::endl;
+				std::cout << ", Total pay: " << (*it)->getHoursWorked() * (*it)->getHourlyValue() << std::endl;
 			}
 		}
 };

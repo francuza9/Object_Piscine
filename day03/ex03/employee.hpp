@@ -5,21 +5,36 @@ class IEmployee
 {
 	public:
 		virtual ~IEmployee() {}
-		int		executeWorkday();
-		int		getHourlyValue() const;
+		virtual int		executeWorkday() = 0;
+		virtual int		getHourlyValue() const = 0;
+		virtual int		getHoursWorked() const = 0;
+		virtual void	resetMonth() = 0;
+		virtual void	logHoursOff(int hours) = 0;
 };
 
 class Employee : public IEmployee
 {
 	protected:
 		int	hourlyValue;
+		int hoursOff;
+		int dayCount;
+
 
 	public:
-		Employee(int val) : hourlyValue(val) {};
+		Employee(int val) : hourlyValue(val), hoursOff(0), dayCount(0) {};
 
 		virtual int	executeWorkday() = 0;
 		
-		int	getHourlyValue() {
+		void logHoursOff(int hours) {
+			hoursOff += hours;
+		}
+
+		void resetMonth() {
+			hoursOff = 0;
+			dayCount = 1;
+		}
+
+		int	getHourlyValue() const {
 			return hourlyValue;
 		}
 };
@@ -34,60 +49,71 @@ class TempWorker: public Employee
 
 		int	executeWorkday() {
 			hoursWorked += 7;
-			return hoursWorked;
+			dayCount++;
+			if (dayCount > 28) {
+				hoursWorked = 7;
+				resetMonth();
+			}
+			return getHoursWorked();
 		}
 
 		int getHoursWorked() const {
-			return hoursWorked;
+			int total = hoursWorked - hoursOff;
+			if (total < 0)
+				total = 0;
+			return total;
 		}
 };
 
 class ContractEmployee: public Employee
 {
-	private:
-		int hoursNotWorked;
-
 	public:
-		ContractEmployee(int val): Employee(val), hoursNotWorked(0) {};
+		ContractEmployee(int val): Employee(val) {};
 
 		int executeWorkday() {
+			dayCount++;
+			if (dayCount > 28) {
+				resetMonth();
+			}
 			return 0;
 		}
 
-		void logTimeOff(int time) {
-			hoursNotWorked += time;
-		};
-
-		int getHoursNotWorked() const {
-			return hoursNotWorked;
+		int getHoursWorked() const {
+			int total = 28 * 7 - hoursOff;
+			if (total < 0)
+				total = 0;
+			return (total);
 		}
 };
 
 class Apprentice: public Employee
 {
 	private:
-		int	hoursWork;
 		int	hoursSchool;
 
 	public:
-		Apprentice(int val): Employee(val), hoursWork(0), hoursSchool(0) {};
+		Apprentice(int val): Employee(val), hoursSchool(0) {};
 
 		int executeWorkday() {
-			if (hoursSchool > 0) {
-				hoursWork += hoursSchool / 2;
-				hoursSchool = 0;
-			} else {
-				hoursWork += 7;
+			dayCount++;
+			if (dayCount <= 14)
+				hoursSchool += 7;
+			if (dayCount > 28) {
+				hoursSchool = 7;
+				resetMonth();
 			}
-			return hoursWork;
+			if (dayCount < 15)
+				return getHoursWorked();
+			return 0;
 		}
 
-		void logSchool(int time) {
-			hoursSchool += time;
-		}
-
-		int getHoursWork() const {
-			return hoursWork;
+		int getHoursWorked() const {
+			int hoursWorked = 28 * 7;
+			int hoursSchooled = hoursSchool / 2;
+			int total = hoursWorked + hoursSchooled - hoursOff;
+			if (total < 0)
+				total = 0;
+			return total;
 		}
 
 };
