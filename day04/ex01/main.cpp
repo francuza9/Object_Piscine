@@ -3,46 +3,51 @@
 
 int	main(void) {
 	{
-		Student s1 = Student("first");
-		Student s2 = Student("SECOND");
-		Student s3 = Student("third");
+		Student *s1 = new Student("first");
+		Student *s2 = new Student("SECOND");
+		Student *s3 = new Student("third");
 
-		Singleton<StudentList>::getInstance()->add(&s1);
-		Singleton<StudentList>::getInstance()->add(&s2);
-		Singleton<StudentList>::getInstance()->add(&s3);
+		Singleton<StudentList>::getInstance()->add(s1);
+		Singleton<StudentList>::getInstance()->add(s2);
+		Singleton<StudentList>::getInstance()->add(s3);
+
 	}
 	{
-		Staff s1 = Staff("hello");
-		Staff s2 = Staff("hi");
-		Staff s3 = Staff("asd");
+		Staff *s1 = new Staff("first");
+		Staff *s2 = new Staff("SECOND");
+		Staff *s3 = new Staff("third");
 
-		Singleton<StaffList>::getInstance()->add(&s1);
-		Singleton<StaffList>::getInstance()->add(&s2);
-		Singleton<StaffList>::getInstance()->add(&s3);
+		Singleton<StaffList>::getInstance()->add(s1);
+		Singleton<StaffList>::getInstance()->add(s2);
+		Singleton<StaffList>::getInstance()->add(s3);
 	}
 	{
-		Room r1 = Room();
-		Room r2 = Room();
-		Room r3 = Room();
+		Room *s1 = new Room();
+		Room *s2 = new Room();
+		Room *s3 = new Room();
 
-		Singleton<RoomList>::getInstance()->add(&r1);
-		Singleton<RoomList>::getInstance()->add(&r2);
-		Singleton<RoomList>::getInstance()->add(&r3);
+		Singleton<RoomList>::getInstance()->add(s1);
+		Singleton<RoomList>::getInstance()->add(s2);
+		Singleton<RoomList>::getInstance()->add(s3);
 	}
 	{
-		Course c1 = Course("first");
-		Course c2 = Course("SECOND");
-		Course c3 = Course("third");
+		Course *s1 = new Course("first");
+		Course *s2 = new Course("SECOND");
+		Course *s3 = new Course("third");
 
-		Singleton<CourseList>::getInstance()->add(&c1);
-		Singleton<CourseList>::getInstance()->add(&c2);
-		Singleton<CourseList>::getInstance()->add(&c3);
+		Singleton<CourseList>::getInstance()->add(s1);
+		Singleton<CourseList>::getInstance()->add(s2);
+		Singleton<CourseList>::getInstance()->add(s3);
 	}
-	Student s1 = Student("fourth");
-	Singleton<StudentList>::getInstance()->add(&s1);
+
+	Student *s1 = new Student("fourth");
+	Singleton<StudentList>::getInstance()->add(s1);
 	for (auto it : Singleton<StudentList>::getInstance()->getStudents()) {
 		std::cout << it->name() << std::endl;
 	}
+	delete s1;
+
+	Singleton<StudentList>::destroyInstance();
 
 	return 0;
 }
